@@ -1,15 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "control_panel/base.html" %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center">Kene Biri</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h3 class="text-center">Orders</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Order ID</th>
+              <th scope="col">Farmer ID</th>
+              <th scope="col">Farmer Name</th>
+              <th scope="col">Farmer street</th>
+              <th scope="col">Farmer house nr</th>
+              <th scope="col">Farmer house nr extension</th>
+              <th scope="col">Farmer zipcode</th>
+              <th scope="col">Liters of milk</th>
+              <th scope="col">Production time</th>
+              <th scope="col">Driver Name</th>
+              <th scope="col">Arrival time</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for order in orders %}
+            <tr>
+              <th scope="row">{{ order.id }}</th>
+              <td>{{ order.farmer.id }}</td>
+              <td>{{ order.farmer.first_name }} {{ order.farmer.last_name }}</td>
+              <td>{{ order.farmer.street }}</td>
+              <td>{{ order.farmer.house_nr }}</td>
+              <td>{{ order.farmer.house_nr_extension }}</td>
+              <td>{{ order.liters_of_milk }}</td>
+              <td>{{ order.farmer.production_time }}</td>
+              <td>{{ order.driver.first_name }} {{ order.driver.last_name }}</td>
+              <td>{{ order.arrival_time }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        </div>
+        <div class="col-6">
+            <h3 class="text-center">Drivers</h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">First</th>
+                  <th scope="col">Last</th>
+                  <th scope="col">Handle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                  <td>@fat</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Larry</td>
+                  <td>the Bird</td>
+                  <td>@twitter</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-<p>IT WORKS</p>
-{% for driver in drivers %}
-    <p>First name : {{driver.first_name}}</p>
-    <p>Last name : {{driver.last_name}}</p>
-{% endfor %}
-</body>
-</html>
+
+
+{% endblock %}
