@@ -1,7 +1,9 @@
 
 # Create your views here.
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormMixin
 
+from .forms import DriverForm, FarmerForm
 from .models import Order, Driver, Farmer
 
 
@@ -49,17 +51,28 @@ class OrdersView(TemplateView):
         return available_drivers
 
 
-class DriverView(TemplateView):
+class DriverView(TemplateView, FormMixin):
     template_name = 'control_panel/drivers.html'
+    form_class = DriverForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['drivers'] = Driver.objects.all()
 
+        return context
+
 
 class FarmerView(TemplateView):
     template_name = 'control_panel/farmers.html'
+    form_class = FarmerForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['farmers'] = Farmer.objects.all()
+        farmers = Farmer.objects.all()
+        for farmer in farmers:
+            farmer.address = f'{farmer.street} {farmer.house_nr} ' \
+                f'{farmer.house_nr_extension}, {farmer.zipcode}'
+
+        context['farmers'] = farmers
+
+        return context
