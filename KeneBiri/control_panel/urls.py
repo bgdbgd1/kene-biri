@@ -5,5 +5,5 @@ from . import views
 app_name = 'control_panel'
 
 urlpatterns = [
-    path('', views.ControlPanelView.as_view(), name='index'),
+    path('', views.OrdersView.as_view(), name='orders'),
 ]
