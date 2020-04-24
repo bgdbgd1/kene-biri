@@ -26,6 +26,7 @@
         <div class="col-4 offset-2">
             <h2>Register new farmer</h2>
             <form class="pt-2" method="post" action="{% url "control_panel:farmers" %}">
+              {% csrf_token %}
               <div class="form-group row">
                 <label for="first_name" class="col-sm-2 col-form-label">First name</label>
                 <div class="col-sm-4">
@@ -68,7 +69,7 @@
                   <input name="phone_number" id="first_name" type="number" class="form-control">
                 </div>
               </div>
-              <button type="button" class="btn btn-success" type="submit">Register</button>
+              <button class="btn btn-success" type="submit">Register</button>
             </form>
         </div>
     </div>

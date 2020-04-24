@@ -18,6 +18,7 @@
                   <td>{{ driver.first_name }} </td>
                   <td>{{ driver.last_name }}</td>
                   <td>{{ driver.phone_number }}</td>
+                  <td><button class="btn btn-warning" onclick="deleteDriver({{ driver.id }})">Delete driver</button></td>
                 </tr>
               {% endfor %}
               </tbody>
@@ -26,6 +27,7 @@
         <div class="col-4 offset-2">
             <h2>Register new driver</h2>
             <form class="pt-2"  method="post" action="{% url "control_panel:drivers" %}">
+              {% csrf_token %}
               <div class="form-group row">
                 <label for="first_name" class="col-sm-2 col-form-label">First name</label>
                 <div class="col-sm-4">
@@ -44,6 +46,7 @@
                   <input name="phone_number" id="first_name" type="number" class="form-control">
                 </div>
               </div>
+              <button class="btn btn-success" type="submit">Register</button>
             </form>
         </div>
     </div>

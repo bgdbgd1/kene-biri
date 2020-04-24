@@ -1,7 +1,8 @@
 
 # Create your views here.
+from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormMixin, FormView
 
 from .forms import DriverForm, FarmerForm
 from .models import Order, Driver, Farmer
@@ -51,9 +52,10 @@ class OrdersView(TemplateView):
         return available_drivers
 
 
-class DriverView(TemplateView, FormMixin):
+class DriverView(FormView):
     template_name = 'control_panel/drivers.html'
     form_class = DriverForm
+    success_url = reverse_lazy('control_panel:drivers')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -61,10 +63,20 @@ class DriverView(TemplateView, FormMixin):
 
         return context
 
+    def form_valid(self, form):
+        data = form.cleaned_data
+        Driver.objects.create(
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            phone_number=data['phone_number']
+        )
+        return super().form_valid(form)
 
-class FarmerView(TemplateView):
+
+class FarmerView(FormView):
     template_name = 'control_panel/farmers.html'
     form_class = FarmerForm
+    success_url = reverse_lazy('control_panel:farmers')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -76,3 +88,13 @@ class FarmerView(TemplateView):
         context['farmers'] = farmers
 
         return context
+
+    def form_valid(self, form, **kwargs):
+        data = form.cleaned_data
+        Farmer.objects.create(
+            first_name=data['first_name'], last_name=data['last_name'],
+            street=data['street'], house_nr=data['house_no'],
+            house_nr_extension=data['house_suffix'], zipcode=data['zipcode'],
+            phone_number=data['phone_number']
+        )
+        return super().form_valid(form)
